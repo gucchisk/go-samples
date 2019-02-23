@@ -1,0 +1,10 @@
+{
+  "name": "add",
+  "versin": "0.0.1",
+  "main": "index.js",
+  "dependencies": {
+    "bindings": "~1.2.1",
+    "node-addon-api": "^1.0.0"
+  },
+  "gypfile": true
+}
