@@ -1,2 +1,5 @@
 signature.txt
 pkcs11
+private.key
+public.key
+private.pem
