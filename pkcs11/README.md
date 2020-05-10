@@ -43,4 +43,5 @@ $ go run pkcs11.go
 ### verify
 ```
 $ openssl dgst -sha256 -verify public.key -signature signature.txt data.txt
+Verified OK
 ```
