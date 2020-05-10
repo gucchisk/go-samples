@@ -1,5 +1,5 @@
 sub:
-	go build -buildmode=c-shared -o libsub.dylib sub.go
+	go build -buildmode=c-archive -o libsub.a sub.go
 
 clean:
-	rm libsub.dylib libsub.h
+	rm libsub.a libsub.h
