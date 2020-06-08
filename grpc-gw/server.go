@@ -20,11 +20,12 @@
 package main
 
 import (
+	"bytes"
 	"context"
-	"fmt"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -51,8 +52,17 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 func handlerFunc(ctx context.Context, grpcServer *grpc.Server, httpHandler http.Handler) http.Handler {
 	return h2c.NewHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("uri: %s\n", r.RequestURI)
+		buf := new(bytes.Buffer)
+		buf.ReadFrom(r.Body)
+		log.Printf("%s\n", buf.String())
+		r.Body.Close()
+		r.Body = ioutil.NopCloser(bytes.NewReader(buf.Bytes()))
+
 		t := r.Header.Get("Content-Type")
-		fmt.Printf("%s", t)
+		log.Printf("Content-Type: %s", t)
+		log.Printf("method: %s\n", r.Method)
+
 		if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
 			grpcServer.ServeHTTP(w, r.WithContext(ctx))
 		} else {
