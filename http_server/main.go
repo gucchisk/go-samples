@@ -42,15 +42,15 @@ func main() {
 	tlsConfig.SessionTicketsDisabled = true
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("called")
+		log.Printf("access /")
 		w.Write([]byte("hello"))
 	})
-	addr := "localhost:8080"
-	// addr := ":8080"
+	// addr := "localhost:8080"
+	addr := ":8080"
 	s := &http.Server{
 		Addr: addr,
 		Handler: mux,
-		// TLSConfig: tlsConfig,
+		TLSConfig: tlsConfig,
 	}
 	// listener, err := net.Listen("tcp", "localhost:8080")
 	// if err != err {
@@ -58,6 +58,6 @@ func main() {
 	// }
 	// s.Serve(listener)
 	// s.Serve(tls.NewListener(listener, s.TLSConfig))
-	s.ListenAndServe()
-	// s.ListenAndServeTLS("", "")
+	// s.ListenAndServe()
+	s.ListenAndServeTLS("", "")
 }
